@@ -30,7 +30,7 @@ function App() {
 							/>
 						}
 					/>
-					<Route path="/code-blocks" element={<CodeBlockPage />} />
+					<Route path="/code-blocks/:id" element={<CodeBlockPage />} />
 				</Routes>
 			</BrowserRouter>
 		</div>
