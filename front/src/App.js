@@ -1,25 +1,40 @@
-import logo from './logo.svg';
-import './App.css';
+import { useState } from "react"
+import { BrowserRouter, Routes, Route } from "react-router-dom"
+import LobbyPage from "./pages/LobbyPage"
+import CodeBlockPage from "./pages/CodeBlockPage"
 
 function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+	const [title, setTitle] = useState("")
+	const [code, setCode] = useState("")
+	const [codeBlockList, setCodeBlockList] = useState([])
+
+	return (
+		<div
+			style={{
+				position: "fixed",
+				top: 0,
+				left: 0,
+				width: "100%",
+				height: "100%",
+				backgroundColor: "#333333",
+			}}
+		>
+			<BrowserRouter>
+				<Routes>
+					<Route
+						path="/"
+						element={
+							<LobbyPage
+								codeBlockList={codeBlockList}
+								setCodeBlockList={setCodeBlockList}
+							/>
+						}
+					/>
+					<Route path="/code-blocks" element={<CodeBlockPage />} />
+				</Routes>
+			</BrowserRouter>
+		</div>
+	)
 }
 
-export default App;
+export default App
