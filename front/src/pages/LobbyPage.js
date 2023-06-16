@@ -28,10 +28,10 @@ function LobbyPage({ codeBlockList, setCodeBlockList }) {
 			<List sx={style} component="nav" aria-label="mailbox folders">
 				{codeBlockList.map((item) => {
 					return (
-						<>
-							<CodeBlockItem key={item} title={item.title}></CodeBlockItem>
+						<div key={item._id}>
+							<CodeBlockItem codeBlock={item}></CodeBlockItem>
 							<Divider />
-						</>
+						</div>
 					)
 				})}
 			</List>
