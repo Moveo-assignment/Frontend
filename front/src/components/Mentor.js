@@ -1,7 +1,8 @@
 import { React, useEffect, useState } from "react"
-import { Editor, EditorDidMount } from "@monaco-editor/react"
+import { Editor } from "@monaco-editor/react"
 import io from "socket.io-client"
 import { setCurrentState } from "../axios"
+import Button from "@mui/material/Button"
 
 const socket = io.connect("http://localhost:3001")
 
@@ -14,7 +15,7 @@ function Mentor({ title, code }) {
 			setChangedCodeReceived(data.changedCode)
 			setShow(false)
 		})
-	}, [socket])
+	}, [])
 
 	const handleGoBack = () => {
 		setCurrentState(true).then(() => {})
@@ -22,17 +23,20 @@ function Mentor({ title, code }) {
 	}
 
 	return (
-		<div>
-			Mentor
+		<div style={{ color: "white" }}>
 			<div>
 				<div>
-					<button onClick={() => handleGoBack()}>back</button>
+					<h1>Mentor</h1>
 				</div>
+
+				<Button variant="contained" color="success" onClick={() => handleGoBack()}>
+					BACK
+				</Button>
 				<h1>{title}</h1>
 				<Editor
 					height="100vh"
 					width="100%"
-					theme="vc"
+					theme="vs-dark"
 					path="script.js"
 					defaultValue={code}
 					value={show ? code : changedCodeReceived}
