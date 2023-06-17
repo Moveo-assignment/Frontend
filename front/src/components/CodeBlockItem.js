@@ -5,9 +5,13 @@ import { useNavigate } from "react-router-dom"
 function CodeBlockItem({ codeBlock }) {
 	const navigate = useNavigate()
 
+	const codeBlockClick = async () => {
+		navigate(`/code-blocks/${codeBlock._id}`)
+	}
+
 	return (
 		<div>
-			<ListItem button onClick={() => navigate(`/code-blocks/${codeBlock._id}`)}>
+			<ListItem button onClick={() => codeBlockClick()}>
 				<ListItemText primary={codeBlock.title} />
 			</ListItem>
 		</div>
