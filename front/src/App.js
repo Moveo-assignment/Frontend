@@ -4,8 +4,6 @@ import LobbyPage from "./pages/LobbyPage"
 import CodeBlockPage from "./pages/CodeBlockPage"
 
 function App() {
-	const [title, setTitle] = useState("")
-	const [code, setCode] = useState("")
 	const [codeBlockList, setCodeBlockList] = useState([])
 
 	return (

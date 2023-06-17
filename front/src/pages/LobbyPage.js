@@ -1,5 +1,5 @@
 import { React, useEffect } from "react"
-import { ListItem, Divider, List, ListItemText } from "@mui/material"
+import { Divider, List } from "@mui/material"
 import CodeBlockItem from "../components/CodeBlockItem"
 import { getAllCodeBlocks } from "../axios"
 
@@ -21,7 +21,14 @@ function LobbyPage({ codeBlockList, setCodeBlockList }) {
 	}, [])
 
 	return (
-		<div>
+		<div
+			style={{
+				display: "flex",
+				flexDirection: "column",
+				alignItems: "center",
+				justifyContent: "center",
+			}}
+		>
 			<div>
 				<h1 style={{ color: "white" }}>Choose Code Box</h1>
 			</div>
