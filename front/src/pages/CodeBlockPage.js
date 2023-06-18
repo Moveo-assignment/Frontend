@@ -63,7 +63,12 @@ function CodeBlockPage() {
 			{isMentorState ? (
 				<Mentor title={codeBlock.title} code={codeBlock.code} roomId={id} />
 			) : (
-				<Student title={codeBlock.title} code={codeBlock.code} roomId={id} />
+				<Student
+					title={codeBlock.title}
+					code={codeBlock.code}
+					roomId={id}
+					solution={codeBlock.solution}
+				/>
 			)}
 		</div>
 	)

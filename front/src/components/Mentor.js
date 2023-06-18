@@ -12,7 +12,6 @@ function Mentor({ title, code, roomId }) {
 		socket.emit("identify", "mentor")
 		socket.emit("join_room", { id: roomId, title: title })
 		socket.on("receive_changed_code", (data) => {
-			console.log(data)
 			setChangedCodeReceived(data)
 		})
 	})

@@ -1,6 +1,7 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom"
 import LobbyPage from "./pages/LobbyPage"
 import CodeBlockPage from "./pages/CodeBlockPage"
+import SmilyPage from "./pages/SmilyPage"
 
 function App() {
 	return (
@@ -18,6 +19,7 @@ function App() {
 				<Routes>
 					<Route path="/" element={<LobbyPage />} />
 					<Route path="/code-blocks/:id" element={<CodeBlockPage />} />
+					<Route path="/smily" element={<SmilyPage />} />
 				</Routes>
 			</BrowserRouter>
 		</div>
