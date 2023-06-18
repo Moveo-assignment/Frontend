@@ -26,17 +26,17 @@ export const getCodeBlockById = async (id) => {
 	}
 }
 
-export const getCurrentState = async () => {
+export const getIsMentor = async () => {
 	try {
-		const response = await axios.get(`${url}/api/getCurrentState`)
+		const response = await axios.get(`${url}/api/getIsMentor`)
 		return response.data
 	} catch (error) {
-		console.error("Error getCurrentState:", error)
+		console.error("Error getIsMentor:", error)
 		return null
 	}
 }
 
-export const setCurrentState = async (state) => {
+export const setIsMentor = async (state) => {
 	const config = {
 		headers: {
 			"Content-Type": "application/json",
@@ -45,14 +45,14 @@ export const setCurrentState = async (state) => {
 
 	try {
 		const response = await axios.post(
-			`${url}/api/setCurrentState`,
+			`${url}/api/setIsMentor`,
 			{ isConnected: state },
 			config
 		)
 
 		return response.data
 	} catch (error) {
-		console.error("Error setCurrentState:", error)
+		console.error("Error setIsMentor:", error)
 		return null
 	}
 }

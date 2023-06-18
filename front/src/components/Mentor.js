@@ -1,25 +1,24 @@
 import { React, useEffect, useState } from "react"
 import { Editor } from "@monaco-editor/react"
 import io from "socket.io-client"
-import { setCurrentState } from "../axios"
 import Button from "@mui/material/Button"
 
 const socket = io.connect("http://localhost:3001")
 
-function Mentor({ title, code }) {
-	const [changedCodeReceived, setChangedCodeReceived] = useState("")
-	const [show, setShow] = useState(true)
+function Mentor({ title, code, roomId }) {
+	const [changedCodeReceived, setChangedCodeReceived] = useState(code)
 
 	useEffect(() => {
+		socket.emit("identify", "mentor")
+		socket.emit("join_room", { id: roomId, title: title })
 		socket.on("receive_changed_code", (data) => {
-			setChangedCodeReceived(data.changedCode)
-			setShow(false)
+			console.log(data)
+			setChangedCodeReceived(data)
 		})
-	}, [])
+	})
 
 	const handleGoBack = () => {
-		setCurrentState(true).then(() => {})
-		window.history.go(-1)
+		window.history.go(-1) // useNavigate
 	}
 
 	return (
@@ -29,7 +28,7 @@ function Mentor({ title, code }) {
 					<h1>Mentor</h1>
 				</div>
 
-				<Button variant="contained" color="success" onClick={() => handleGoBack()}>
+				<Button variant="contained" color="success" onClick={handleGoBack}>
 					BACK
 				</Button>
 				<h1>{title}</h1>
@@ -39,7 +38,7 @@ function Mentor({ title, code }) {
 					theme="vs-dark"
 					path="script.js"
 					defaultValue={code}
-					value={show ? code : changedCodeReceived}
+					value={changedCodeReceived}
 					options={{ readOnly: true }}
 				/>
 			</div>

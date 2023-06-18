@@ -1,16 +1,19 @@
-import React, { useState, useRef } from "react"
+import React, { useEffect } from "react"
 import Editor from "@monaco-editor/react"
 import io from "socket.io-client"
 import Button from "@mui/material/Button"
 
 const socket = io.connect("http://localhost:3001")
 
-function Student({ title, code }) {
-	const [changedCode, setChangedCode] = useState(code)
+function Student({ title, code, roomId }) {
+	useEffect(() => {
+		return () => {
+			socket.emit("join_room", { id: roomId, title: title })
+		}
+	})
 
 	const handleOnChange = (value) => {
-		setChangedCode(value)
-		socket.emit("update_code", { changedCode: value })
+		socket.emit("update_code", { code: value, roomId: roomId })
 	}
 
 	return (
