@@ -1,13 +1,8 @@
-import { useState } from "react"
 import { BrowserRouter, Routes, Route } from "react-router-dom"
 import LobbyPage from "./pages/LobbyPage"
 import CodeBlockPage from "./pages/CodeBlockPage"
 
 function App() {
-	const [title, setTitle] = useState("")
-	const [code, setCode] = useState("")
-	const [codeBlockList, setCodeBlockList] = useState([])
-
 	return (
 		<div
 			style={{
@@ -21,15 +16,7 @@ function App() {
 		>
 			<BrowserRouter>
 				<Routes>
-					<Route
-						path="/"
-						element={
-							<LobbyPage
-								codeBlockList={codeBlockList}
-								setCodeBlockList={setCodeBlockList}
-							/>
-						}
-					/>
+					<Route path="/" element={<LobbyPage />} />
 					<Route path="/code-blocks/:id" element={<CodeBlockPage />} />
 				</Routes>
 			</BrowserRouter>

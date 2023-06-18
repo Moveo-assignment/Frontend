@@ -11,7 +11,7 @@ function CodeBlockItem({ codeBlock }) {
 
 	return (
 		<div>
-			<ListItem button onClick={() => codeBlockClick()}>
+			<ListItem onClick={() => codeBlockClick()}>
 				<ListItemText primary={codeBlock.title} />
 			</ListItem>
 		</div>

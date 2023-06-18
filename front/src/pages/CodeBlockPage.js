@@ -1,20 +1,20 @@
 import React, { useEffect, useState } from "react"
-import { getCodeBlockById, getCurrentState, setCurrentState } from "../axios"
+import { getCodeBlockById, getIsMentor, setIsMentor } from "../axios"
 import Mentor from "../components/Mentor"
 import Student from "../components/Student"
+import { useParams } from "react-router"
+import CircularProgress from "@mui/material/CircularProgress"
 
 function CodeBlockPage() {
-	const url = window.location.href
-	const id = url.split("/")[4]
+	const { id } = useParams()
 
 	const [codeBlock, setCodeBlock] = useState(null)
-	const [state, setState] = useState(null)
+	const [isMentorState, setIsMentorState] = useState(false)
 
 	useEffect(() => {
 		getCodeBlockById(id)
 			.then((result) => {
-				setCodeBlock(result)
-				console.log("hey roey", result)
+				setCodeBlock(result[0])
 			})
 			.catch((error) => {
 				console.error("Error id:", error)
@@ -22,9 +22,9 @@ function CodeBlockPage() {
 	}, [id])
 
 	useEffect(() => {
-		getCurrentState()
-			.then((state) => {
-				setState(state)
+		getIsMentor()
+			.then((res) => {
+				setIsMentorState(res)
 			})
 			.catch((error) => {
 				console.error("Error state:", error)
@@ -33,26 +33,37 @@ function CodeBlockPage() {
 
 	useEffect(() => {
 		const handleState = () => {
-			if (state) {
-				setCurrentState(!state).then(() => {})
+			if (isMentorState) {
+				setIsMentor(!isMentorState).then(() => {})
 			}
 		}
 
-		if (state !== null) {
+		if (isMentorState !== null) {
 			handleState()
 		}
-	}, [state])
+	}, [isMentorState])
 
 	if (codeBlock === null) {
-		return <div>Loading...</div>
+		return (
+			<div
+				style={{
+					display: "flex",
+					flexDirection: "column",
+					alignItems: "center",
+					justifyContent: "center",
+				}}
+			>
+				<CircularProgress />
+			</div>
+		)
 	}
 
 	return (
-		<div style={{ backgroundColor: "grey" }}>
-			{state ? (
-				<Mentor title={codeBlock[0].title} code={codeBlock[0].code} />
+		<div style={{ backgroundColor: "#333333" }}>
+			{isMentorState ? (
+				<Mentor title={codeBlock.title} code={codeBlock.code} roomId={id} />
 			) : (
-				<Student title={codeBlock[0].title} code={codeBlock[0].code} />
+				<Student title={codeBlock.title} code={codeBlock.code} roomId={id} />
 			)}
 		</div>
 	)
