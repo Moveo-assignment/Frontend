@@ -4,13 +4,21 @@ import io from "socket.io-client"
 import Button from "@mui/material/Button"
 import { useNavigate } from "react-router-dom"
 
-const socket = io.connect("http://localhost:3001")
+const socket = io("http://localhost:3001", {
+	transports: ["websocket"],
+})
 
+// const socket = io("wss://backend-roey-rach.onrender.com:3001", {
+// 	transports: ["websocket"],
+// })
+
+const key = "DSFN932840GFJF-120934F"
 function Student({ title, code, roomId, solution }) {
 	const navigate = useNavigate()
 
 	const [hashedSolution, setHashedSolution] = useState("")
 	const [codeCheck, setCodeCheck] = useState(code)
+	const [connectionError, setConnectionError] = useState(false)
 
 	function encrypt(plaintext, key) {
 		let ciphertext = ""
@@ -36,10 +44,11 @@ function Student({ title, code, roomId, solution }) {
 	}
 
 	useEffect(() => {
-		socket.emit("join_room", { id: roomId, title: title })
+		socket.on("connect", () => {
+			setConnectionError(false)
+			socket.emit("join_room", { id: roomId, title: title })
+		})
 	}, [roomId, title])
-
-	const key = "DSFN932840GFJF-120934F"
 
 	useEffect(() => {
 		setHashedSolution(encrypt(solution, key))
@@ -51,7 +60,7 @@ function Student({ title, code, roomId, solution }) {
 		if (areEqual) {
 			navigate("/smily")
 		}
-	}, [codeCheck, hashedSolution, navigate])
+	})
 
 	const handleOnChange = (value) => {
 		setCodeCheck(value)
@@ -65,18 +74,24 @@ function Student({ title, code, roomId, solution }) {
 					<h1>Student</h1>
 				</div>
 
-				<Button variant="contained" color="success" onClick={() => navigate(-1)}>
-					BACK
-				</Button>
-				<h1>{title}</h1>
-				<Editor
-					height="100vh"
-					width="100%"
-					theme="vs-dark"
-					defaultLanguage="javascript"
-					defaultValue={code}
-					onChange={handleOnChange}
-				/>
+				{connectionError ? (
+					<p>Failed to establish a connection with the server.</p>
+				) : (
+					<>
+						<Button variant="contained" color="success" onClick={() => navigate(-1)}>
+							BACK
+						</Button>
+						<h1>{title}</h1>
+						<Editor
+							height="100vh"
+							width="100%"
+							theme="vs-dark"
+							defaultLanguage="javascript"
+							defaultValue={code}
+							onChange={handleOnChange}
+						/>
+					</>
+				)}
 			</div>
 		</div>
 	)
